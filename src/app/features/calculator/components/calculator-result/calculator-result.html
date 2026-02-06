@@ -1,0 +1,34 @@
+@if (calculatorResultList() && calculatorResultList()!.length > 0) {
+<div class="container mt-4" [class.flash-animation]="isFlashing()">
+  <div class="table-responsive">
+    <table class="table table-striped table-hover table-dark">
+      <thead class="table-dark text-uppercase">
+        <tr>
+          <th>Year</th>
+          <th>Investment Value</th>
+          <th>Interest (Year)</th>
+          <th>Total Interest</th>
+          <th>Total Investment</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (result of calculatorResultList(); track result.year) {
+        <tr>
+          <td>{{ result.year }}</td>
+          <td>{{ result.investmentValue | currency }}</td>
+          <td>{{ result.interestPerYear | currency }}</td>
+          <td>{{ result.investmentValue - result.investedCapital | currency }}</td>
+          <td>{{ result.totalInvestment | currency }}</td>
+        </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+</div>
+} @else {
+<div class="container mt-4">
+  <div class="alert alert-info" role="alert">
+    No results yet. Please fill out the form and calculate your investment.
+  </div>
+</div>
+}

@@ -1,0 +1,51 @@
+<div class="container container-lg">
+  <div class="row">
+    <div class="col-12 col-lg-6 pt-5 text-center mx-auto">
+      <p class="mb-4">
+        Calculate the future value of your investments with our easy-to-use calculator. Simply enter
+        your initial investment, monthly contributions, expected annual return, and investment
+        duration to see how your money can grow over time.
+      </p>
+      <p class="mb-4">
+        Whether you're saving for retirement, a major purchase, or just want to see how your
+        investments can grow, our calculator provides you with a clear picture of your financial
+        future. Start planning today and watch your investments flourish!
+      </p>
+
+      <form [formGroup]="calculatorForm" (ngSubmit)="onSubmit();">
+        <div class="card card-primary bg-dark text-light text-start py-3">
+          <div class="card-body">
+            <div class="row pb-3">
+              <div class="col-6">
+                <label for="initialInvestment" class="form-label">Initial Investment ($)</label>
+                <input type="number" class="form-control" id="initialInvestment" formControlName="initialInvestment"
+                  placeholder="0" />
+              </div>
+              <div class="col-6">
+                <label for="annualInvestment" class="form-label">Annual Contribution ($)</label>
+                <input type="number" class="form-control" id="annualInvestment" formControlName="annualInvestment"
+                  placeholder="0" />
+              </div>
+            </div>
+            <div class="row pb-3">
+              <div class="col-6">
+                <label for="expectedReturn" class="form-label">Expected Annual Return (%)</label>
+                <input type="number" class="form-control" id="expectedReturn" formControlName="expectedReturn"
+                  placeholder="5" />
+              </div>
+              <div class="col-6">
+                <label for="investmentDuration" class="form-label">Investment Duration (years)</label>
+                <input type="number" class="form-control" id="investmentDuration" formControlName="investmentDuration"
+                  placeholder="0" />
+              </div>
+            </div>
+          </div>
+          <div class="card-footer py-3">
+            <button type="submit" class="btn btn-primary w-100 text-white fw-bold text-uppercase"
+              [disabled]="calculatorForm.pristine">Calculate</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
