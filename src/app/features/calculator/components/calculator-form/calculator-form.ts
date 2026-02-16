@@ -1,21 +1,16 @@
-import { Component, input, output, inject } from '@angular/core';
-import {
-  FormGroup,
-  FormControl,
-  Validators,
-  ReactiveFormsModule,
-  NonNullableFormBuilder,
-} from '@angular/forms';
+import { Component, output, inject } from '@angular/core';
+import { ReactiveFormsModule, NonNullableFormBuilder } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { CalculatorFormModel } from '../../../../core/models/calculator-form.model';
 import { CalculatorResultModel } from '../../../../core/models/calculataor-result.model';
 import { InvestmentCalculatorService } from '../../services/investment-calculator.service';
-
-type FormControls<T> = { [K in keyof T]: FormControl<T[K]> };
+import { ButtonIcon } from '../../../../shared/components/button-icon/button-icon';
+import { InputProperty } from '../../../../shared/components/input-property/input-property';
+import { createCalculatorFormGroup } from './calculator-form.validators';
 
 @Component({
   selector: 'app-calculator-form',
-  imports: [ReactiveFormsModule, CommonModule],
+  imports: [ReactiveFormsModule, CommonModule, ButtonIcon, InputProperty],
   templateUrl: './calculator-form.html',
   styleUrl: './calculator-form.scss',
 })
@@ -23,21 +18,7 @@ export class CalculatorForm {
   private readonly fb = inject(NonNullableFormBuilder);
   private readonly investmentCalculatorService = inject(InvestmentCalculatorService);
   calculatorResult = output<CalculatorResultModel[]>();
-
-  calculatorForm = this.fb.group<FormControls<CalculatorFormModel>>({
-    initialInvestment: this.fb.control(0, {
-      validators: [Validators.required, Validators.min(0)],
-    }),
-    annualInvestment: this.fb.control(0, {
-      validators: [Validators.required, Validators.min(0)],
-    }),
-    expectedReturn: this.fb.control(5, {
-      validators: [Validators.required, Validators.min(0), Validators.max(100)],
-    }),
-    investmentDuration: this.fb.control(10, {
-      validators: [Validators.required, Validators.min(1), Validators.max(50)],
-    }),
-  });
+  calculatorForm = createCalculatorFormGroup(this.fb);
 
   onSubmit(): void {
     if (this.calculatorForm.valid) {
@@ -45,6 +26,7 @@ export class CalculatorForm {
       const results = this.investmentCalculatorService.calculateInvestment(formValue);
 
       this.calculatorResult.emit(results);
+      //this.calculatorForm.reset();
       this.calculatorForm.markAsPristine();
     }
   }
